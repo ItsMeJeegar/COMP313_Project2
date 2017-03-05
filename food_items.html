@@ -91,6 +91,7 @@ function get(name){
   var foodRef = firebase.database().ref().child("Items");
   if(resname!=null) {
   foodRef.orderByChild("Restaurant").equalTo(resname).on("value", function(snapShot) {
+    fooditems.innerHTML = "";
     snapShot.forEach(function(childSnapShot){
       var childData = childSnapShot.val();
       // var costSnapShot = childSnapShot.child("Cost");

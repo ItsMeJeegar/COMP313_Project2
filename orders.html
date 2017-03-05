@@ -1,0 +1,130 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="img/favicon.ico">
+
+    <title>Orders | foodCentennial</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap/bootstrap.css" rel="stylesheet">
+    <!-- Bootstrap theme -->
+    <link href="css/bootstrap/bootstrap-theme.css" rel="stylesheet">
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <link href="css/bootstrap/ie10-viewport-bug-workaround.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="css/theme.css" rel="stylesheet">
+
+    <script src="https://www.gstatic.com/firebasejs/3.7.0/firebase.js"></script>
+    <script src="js/firebase/init.js"></script>
+</head>
+
+<body style="background-color: #888888">
+
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">foodCentennial</a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="#">Home</a></li>
+                    <li><a href="#about">Food</a></li>
+                    <li><a href="#contact">Restaurants</a></li>
+                    <li><a href="#about">Orders</a></li>
+                    <li><a href="#contact">Cart <span class="badge">0</span></a></li>
+
+
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Account <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Address Book</a></li>
+                            <li><a href="#">Payment Methods</a></li>
+
+                        </ul>
+                    </li>
+                    <li><a href="#about">Logout</a></li>
+                </ul>
+            </div><!--/.nav-collapse -->
+        </div>
+    </nav>
+
+
+    <div style="width:100%; height: auto; background-color: #d4df38; margin-top:-20px;">
+        <div class="container" style="background-color: #aaaaaa">
+            <div class="row" style="height: 80px;">
+                <div class="col-md-3 col-sm-3 col-xs-6" style="background-color: #d4df38; height: inherit;"><img style="width: 100%; max-height: 100%; background-color: #555555;" src="img/logo.svg"></div>
+                <div class="col-md-6 col-sm-6 col-xs-6" style="background-color: #d4df38; height: inherit;"><img style="width: 100%; max-height: 100%;" src="img/mainlogo.png"></div>
+                <div class="col-md-3 col-sm-3 hidden-xs" style="background-color: #d4df38; height: inherit;">search box</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container theme-showcase" role="main" style="background-color: #eeeeee; padding-top: 15px;">
+
+        <div class="page-header">
+            <h1>Orders</h1>
+            
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <table class="table table-bordered">
+                    <thead style="text-align:center">
+                        <tr>
+                            <th>Order No.</th>
+                            <th>Date</th>
+                            <th>Time</th>
+                            <th></th>
+                            
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div style="height:200%; text-align:center; ">
+                                    1
+                                </div>
+                            </td>
+                            <td>30/7/2017</td>
+
+                            <td>3:30 PM</td>
+
+                            <td><a href="view_order.html">View</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        </div>
+
+
+        <div style="width:100%; height:40px; line-height: 38px; margin-bottom: -30px; text-align: center; background-color: #555555; color: #cccccc;">
+            &#169; 2017 Centennial College. All Rights Reserved.
+        </div>
+
+
+        <!-- Bootstrap core JavaScript
+        ================================================== -->
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        <script>window.jQuery || document.write('<script src="js/bootstrap/jquery.min.js"><\/script>')</script>
+        <script src="js/bootstrap/bootstrap.js"></script>
+        <script src="js/bootstrap/docs.min.js"></script>
+        <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+        <script src="js/bootstrap/ie10-viewport-bug-workaround.js"></script>
+
+
+</body>
+</html>

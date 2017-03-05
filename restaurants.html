@@ -85,7 +85,7 @@ var allres = document.getElementById("allres");
 
 var restRef = firebase.database().ref().child("Restaurants");
 restRef.on('value', function(datasnapshot) {
-
+  allres.innerHTML = "";
   datasnapshot.forEach(function(childSnapshot) {
   var childData = childSnapshot.val();
 

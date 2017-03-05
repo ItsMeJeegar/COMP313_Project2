@@ -19,7 +19,8 @@
 
     <!-- Custom styles for this template -->
     <link href="css/theme.css" rel="stylesheet">
-
+  <script src="https://www.gstatic.com/firebasejs/3.7.0/firebase.js"></script>
+    <script src="js/firebase/init.js"></script>
     
   </head>
 
@@ -104,22 +105,34 @@
 <div class="page-header">
     <h1>Latest Items</h1>
       </div>
-<div class="row">
-        <div class="col-md-3 col-sm-4 col-xs-6" style="background-color: red; height:200px;">
-            <img src="" style="height:100%;">
-        </div>
+<div class="row" id="latestitems">
 
-        <div class="col-md-3 col-sm-4 col-xs-6" style="background-color: green; height:200px;">
-        </div>
-
-        <div class="col-md-3 col-sm-4 col-xs-6" style="background-color: yellow; height:200px;">
-        </div>
-
-        <div class="col-md-3 col-sm-4 col-xs-6" style="background-color: blue; height:200px;">
-        </div>
-
-        <div class="col-md-3 col-sm-4 col-xs-6" style="background-color: purple; height:200px;">
-        </div>
+  <script>
+var latestitems = document.getElementById("latestitems");
+  var latestcounter = 0;
+  var foodRef = firebase.database().ref().child("Items").limitToLast(4);
+  foodRef.on("value", function(snapShot) {
+    snapShot.forEach(function(childSnapShot){
+      var childData = childSnapShot.val();
+      // var costSnapShot = childSnapShot.child("Cost");
+      // costSnapShot.forEach(function(costs){
+      //   window.alert(costs.key+" - "+costs.val()); 
+      // });
+      
+      var latestdata = '<a><div class="col-md-3 col-sm-4 col-xs-6" style="height:250px; text-align: center;">'; 
+      latestdata += '<div style="width:100%; height:10px;"></div><div style="width:100%; height:180px;">'; 
+      latestdata += '<img class="center-block" src="img/items/'+childData.Image+'" style="height:100%; border: 1px solid #555555; margin: auto;"/>';
+      latestdata += '</div><div style="line-height: 47px; font-size: 18px;">';
+      latestdata += childData.Name;
+      latestdata += '<br></div></div></a>';
+      
+      latestitems.innerHTML += latestdata;
+      latestcounter++;
+      
+    }); 
+  });
+  </script>
+        
 
 </div>
 
@@ -130,9 +143,22 @@
       </div>
 
 
+
+<script src="https://www.gstatic.com/firebasejs/3.6.10/firebase.js"></script>
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyCub800kAE7UbNg_6berdtTPM92bMCuBbE",
+    authDomain: "foodcentennial-9f182.firebaseapp.com",
+    databaseURL: "https://foodcentennial-9f182.firebaseio.com",
+    storageBucket: "foodcentennial-9f182.appspot.com",
+    messagingSenderId: "372237451638"
+  };
+  firebase.initializeApp(config);
+</script>
        <!-- Bootstrap core JavaScript
     ================================================== -->
-    
+     <script src="js/main.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script>window.jQuery || document.write('<script src="js/bootstrap/jquery.min.js"><\/script>')</script>
     <script src="js/bootstrap/bootstrap.js"></script>

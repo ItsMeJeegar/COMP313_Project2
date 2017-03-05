@@ -1,6 +1,16 @@
 body {
   padding-top: 70px;
   padding-bottom: 30px;
+  font-family: sans-serif;
+}
+
+
+.hplink {
+  opacity: 1;
+}
+
+.hplink:hover {
+  opacity: 0.7;
 }
 
 .theme-dropdown .dropdown-menu {

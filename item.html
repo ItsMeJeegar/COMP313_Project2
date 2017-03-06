@@ -76,15 +76,15 @@
 <div class="container theme-showcase" role="main" style="background-color: #eeeeee; padding-top: 15px;">
 
     <div class="row">
-        <div class="col-md-4 col-sm-6 col-xs-12" style=" height:320px; text-align: center;">
-         
+        <div class="col-md-4 col-sm-6 col-xs-12" style=" height:350px; text-align: center;">
+         <div style="height:30px; width:100px;"></div>
          <div style="width:100%; height:200px;">
-            <img class="center-block" src="img/items/coffee.png" style="height:100%; margin: auto; border: 1px solid #999999;"/>
+            <img id="item-image" class="center-block" style="height:100%; margin: auto; border: 1px solid #999999;"/>
          </div>
          <div style="line-height: 47px; font-size: 18px;">  
         <h2><button type="button" class="btn btn-info">Add to cart</button></h2>
 
-                <select>
+                <select id="quantity">
                     <option>1</option>
                     <option>2</option>
                     <option>3</option>
@@ -96,13 +96,25 @@
 
        <div class="col-md-8 col-sm-6 col-xs-12" style="height:300px;">
          
-         <div style="line-height: 47px;">
-         <h1>Coffee</h1>
-         <h4>Tim Hortons</h4>
+         <div style=" height: 180px;">
+           <br>
+         <h2 id="item-name"></h2>
+         <h5 id="item-restaurant"></h5>
+         
+         <h4 id="item-size"></h4>
+          <h4 id="item-price"></h4>
                  
+          
          </div>
+         <div style="line-height: 47px;height: 120px;">
+         <h4>Description</h4>
+         <h4 id="item-desc"></h4>
+          
+         </div>
+
+
         </div>
-          <div class="col-md-12" style="width:95%; border-bottom:#999999 solid 1px; margin:auto;">
+          <div class="col-md-12" style="width:100%; border-bottom:#999999 solid 1px; margin:auto; ">
 
       </div>
         <div class="col-md-12 col-sm-12 col-xs-12" style=" text-align: center;">
@@ -121,7 +133,69 @@
 
        <!-- Bootstrap core JavaScript
     ================================================== -->
+    <script>
+function get(name){
+   if(name=(new RegExp('[?&]'+encodeURIComponent(name)+'=([^&]*)')).exec(location.search))
+      return decodeURIComponent(name[1]);
+}
+  
+var itemkey = get("key");
+var item_name = document.getElementById("item-name");
+var item_image = document.getElementById("item-image");
+var item_rest = document.getElementById("item-restaurant");
+var item_size = document.getElementById("item-size");
+var item_desc = document.getElementById("item-desc");
+var item_price = document.getElementById("item-price");
+
+
+var path = "Items/"+itemkey;
+var restRef = firebase.database().ref().child(path);
+restRef.on('value', function(datasnapshot) {
+
+  var childData = datasnapshot.val();
+  item_name.innerHTML = childData.Name;
+  item_rest.innerHTML = childData.Restaurant;
+  item_desc.innerHTML = childData.Description;
+  item_image.src = 'img/items/'+childData.Image;
+
+  if(datasnapshot.child('Cost').hasChildren()) {
+      //Size dropdown generated
+      var sizedropdata = 'Select Size: <select id="sizedd" name="sizedd" onchange="onSizeChange()">';
+      var costSnapShot = datasnapshot.child("Cost");
+      costSnapShot.forEach(function(costs){
+        sizedropdata+='<option>'+costs.key+'</option>';
+        console.log(costs.key+" - "+costs.val()); 
+      });
+      sizedropdata+= "</select>";
+      item_size.innerHTML = sizedropdata;
+
+      onSizeChange();
+
+  }
+  else {
+    window.alert("else");
+    item_price.innerHTML = "Cost: $ "+datasnapshot.child('Cost').val();
+  }
+
+});
+
+function addToCart() {
+
+}
+
+function onSizeChange() {
+  var sizepath = "Items/"+itemkey+"/Cost";
+  var sizeRef = firebase.database().ref().child(sizepath);
+  var x = document.getElementById("sizedd").value;
+  sizeRef.on("value", function(snapShot) {
     
+
+    item_price.innerHTML = "Cost: $ "+snapShot.child(x).val();
+  });
+}
+
+
+</script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script>window.jQuery || document.write('<script src="js/bootstrap/jquery.min.js"><\/script>')</script>
     <script src="js/bootstrap/bootstrap.js"></script>

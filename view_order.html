@@ -37,14 +37,14 @@
                 </button>
                 <a class="navbar-brand" href="#">foodCentennial</a>
             </div>
-            <div id="navbar" class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li class="active"><a href="#">Home</a></li>
-                    <li><a href="#about">Food</a></li>
-                    <li><a href="#contact">Restaurants</a></li>
-                    <li><a href="#about">Orders</a></li>
-                    <li><a href="#contact">Cart <span class="badge">0</span></a></li>
-
+         <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li class="active"><a href="index_home.html">Home</a></li>
+            <li><a href="food_items.html">Food</a></li>
+            <li><a href="restaurants.html">Restaurants</a></li>
+            <li><a href="orders.html">Orders</a></li>
+            <li><a href="cart.html">Cart <span class="badge">0</span></a></li>
+            
 
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Account <span class="caret"></span></a>
@@ -64,20 +64,19 @@
     <div style="width:100%; height: auto; background-color: #d4df38; margin-top:-20px;">
         <div class="container" style="background-color: #aaaaaa">
             <div class="row" style="height: 80px;">
-                <div class="col-md-3 col-sm-3 col-xs-6" style="background-color: #d4df38; height: inherit;"><img style="width: 100%; max-height: 100%; background-color: #555555;" src="img/logo.svg"></div>
-                <div class="col-md-6 col-sm-6 col-xs-6" style="background-color: #d4df38; height: inherit;"><img style="width: 100%; max-height: 100%;" src="img/mainlogo.png"></div>
-                <div class="col-md-3 col-sm-3 hidden-xs" style="background-color: #d4df38; height: inherit;">search box</div>
-            </div>
+        <div class="col-md-3 col-sm-6 col-xs-12" style="background-color: #d4df38; height: inherit;"><img style="width: 100%; max-height: 100%; background-color: #555555;" src="img/logo.svg"></div>
+  <div class="col-md-6 col-sm-6 hidden-xs" style="background-color: #d4df38; height: inherit; text-align: center;"><div style="width:100px; height:15px;"></div><img style="max-height: 50px;" src="img/mainlogo.png"></div>
+  <div class="col-md-3 hidden-sm hidden-xs" style="background-color: #d4df38; height: inherit;"></div>
+         </div>
         </div>
     </div>
 
     <div class="container theme-showcase" role="main" style="background-color: #eeeeee; padding-top: 15px;">
 
         <div class="page-header">
-            <h1>View Orders</h1>
 
-            <h3 style="color: red;">Order Number:</h3>
 
+            <h3 id="odn" style="color: black;">Order Number: </h3>
         </div>
 
         <div class="row">
@@ -94,134 +93,8 @@
                         </tr>
                         
                     </thead>
-                    <tbody>
-                        <tr>
-                            <td>
-                                <div style="height:200%; text-align:center; ">
-                                    Pizza Slice
-                                </div>
-                            </td>
-                            <td>
-                                <div style="height:200%; text-align:center; ">
-                                    Pizza Pizza
-                                </div>
-                            </td>
-
-                            <td>
-                                <div style="height:200%; text-align:center; ">
-                                    $ 3.99
-                                </div>
-                            </td>
-
-                            <td>
-                                <div style="height:200%; text-align:center; ">
-                                    2
-                                </div>
-                            </td>
-                            <td>
-                                <div style="height:200%; text-align:center; ">
-                                    $ 7.99
-                                </div>
-                            </td>
-                            <td>
-                                <div style="height:200%; text-align:center; ">
-                                    Placed
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div style="height:200%; text-align:center; ">
-                                    Coffee
-                                </div>
-                            </td>
-                            <td>
-                                <div style="height:200%; text-align:center; ">
-                                    Tim Hortons
-                                </div>
-                            </td>
-
-                            <td>
-                                <div style="height:200%; text-align:center; ">
-                                    $ 1.90
-                                </div>
-                            </td>
-
-                            <td>
-                                <div style="height:200%; text-align:center; ">
-                                    2
-                                </div>
-                            </td>
-                            <td>
-                                <div style="height:200%; text-align:center; ">
-                                    $ 3.80
-                                </div>
-                            </td>
-                            <td>
-                                <div style="height:200%; text-align:center; ">
-                                    Placed
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colspan="4">
-                                <div style="height:200%; text-align:right; font-weight:bold ">
-                                    TOTAL
-                                </div>
-                            </td>
-                            <td>
-                                <div style="height:200%; text-align:center; font-weight:bold">
-                                    $ 1.90
-                                </div>
-                            </td>
-
-                            <td>
-                                <div style="height:200%; text-align:center; ">
-                                    
-                                </div>
-                            </td>
-
-                        </tr>
-                      
-                        <tr>
-                            <td colspan="4">
-                                <div style="height:200%; text-align:right; font-weight:bold ">
-                                    TAX
-                                </div>
-                            </td>
-                            <td>
-                                <div style="height:200%; text-align:center; font-weight:bold">
-                                    $ 1.90
-                                </div>
-                            </td>
-
-                            <td>
-                                <div style="height:200%; text-align:center; ">
-
-                                </div>
-                            </td>
-
-                        </tr>
-
-                        <tr>
-                            <td colspan="4">
-                                <div style="height:200%; text-align:right; font-weight:bold ">
-                                   GRAND TOTAL
-                                </div>
-                            </td>
-                            <td>
-                                <div style="height:200%; text-align:center; font-weight:bold">
-                                    $ 1.90
-                                </div>
-                            </td>
-
-                            <td>
-                                <div style="height:200%; text-align:center; ">
-
-                                </div>
-                            </td>
-
-                        </tr>
+                    <tbody id="obody">
+                    
                     </tbody>
                 </table>
             </div>
@@ -240,54 +113,36 @@ function get(name){
   
 var orderkey = get("key");
 
-
+var data = '';
+var fdata = '';
+var obody = document.getElementById('obody');
 var path = "Orders/"+orderkey;
 var orderRef = firebase.database().ref().child(path);
 var itemsRef = firebase.database().ref().child(path+'/Items');
-orderRef.on('value', function(datasnapshot) {
-  var childData = datasnapshot.val();
+itemsRef.on('value', function(datasnapshot) {
+datasnapshot.forEach(function(childSnapShot){
+  var childData = childSnapShot.val();
   
-
-
-  
-
+    data += '<tr><td><div style="height:200%; text-align:center; ">'+childData.Name+'</div></td><td><div style="height:200%; text-align:center; ">'+childData.Restaurant+'</div></td>';
+    data += '<td><div style="height:200%; text-align:center; ">'+childData.Cost+'</div></td><td><div style="height:200%; text-align:center; ">'+childData.Quantity+'</div></td>';
+    data += '<td><div style="height:200%; text-align:center; ">'+childData.Total+'</div></td><td><div style="height:200%; text-align:center; ">Placed</div></td></tr>';
 });
 
-function addToCart() {
-    var qty = document.getElementById("quantity");
-    var res = item_rest.innerHTML;
-    var cst = document.getElementById("cst");
-    var tot = cst.value * qty.value;
-    tot = Number(tot).toFixed(2); 
-    var newName = item_name.innerHTML;
-    if(hasSize==true) {
-      newName += " (" + sizedd.value + ")";
-    }  
-    var cartRef = firebase.database().ref().child("Users/1/Cart");
-    var newItemRef = cartRef.push();
-    newItemRef.set({
-    Name: newName,
-    Restaurant: res,
-    Image: image_name,
-    Cost: cst.value,
-    Quantity: qty.value,
-    Total: tot
-  });
+obody.innerHTML += data;
+});
 
-  window.location.href = 'cart.html';
 
-}
+orderRef.on('value', function(dss) {
+  var childData = dss.val();
+  var odn = document.getElementById("odn");
+    odn.innerHTML += childData.OrderID; 
+    fdata += '<tr><td colspan="4"><div style="height:200%; text-align:right; font-weight:bold;">Total</div></td><td><div style="height:200%; text-align:center; ">'+childData.Total+'</div></td></tr>';
+    fdata += '<tr><td colspan="4"><div style="height:200%; text-align:right; font-weight:bold;">Tax</div></td><td><div style="height:200%; text-align:center; ">'+childData.Tax+'</div></td></tr>';
+    fdata += '<tr><td colspan="4"><div style="height:200%; text-align:right; font-weight:bold;">Grand Total</div></td><td><div style="height:200%; text-align:center; ">'+childData.GrandTotal+'</div></td></tr>';
+    obody.innerHTML += fdata;
+});
 
-function onSizeChange() {
-  var sizepath = "Items/"+itemkey+"/Cost";
-  var sizeRef = firebase.database().ref().child(sizepath);
-  var x = document.getElementById("sizedd").value;
-  sizeRef.on("value", function(snapShot) {
-    
-    hidden_price.value = snapShot.child(x).val();
-    item_price.innerHTML = "Cost: $ "+snapShot.child(x).val();
-  });
-}
+
 
 
 </script>

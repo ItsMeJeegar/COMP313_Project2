@@ -232,6 +232,65 @@
     <div style="width:100%; height:40px; line-height: 38px; margin-bottom: -30px; text-align: center; background-color: #555555; color: #cccccc;">
         &#169; 2017 Centennial College. All Rights Reserved.
     </div>
+<script>
+function get(name){
+   if(name=(new RegExp('[?&]'+encodeURIComponent(name)+'=([^&]*)')).exec(location.search))
+      return decodeURIComponent(name[1]);
+}
+  
+var orderkey = get("key");
+
+
+var path = "Orders/"+orderkey;
+var orderRef = firebase.database().ref().child(path);
+var itemsRef = firebase.database().ref().child(path+'/Items');
+orderRef.on('value', function(datasnapshot) {
+  var childData = datasnapshot.val();
+  
+
+
+  
+
+});
+
+function addToCart() {
+    var qty = document.getElementById("quantity");
+    var res = item_rest.innerHTML;
+    var cst = document.getElementById("cst");
+    var tot = cst.value * qty.value;
+    tot = Number(tot).toFixed(2); 
+    var newName = item_name.innerHTML;
+    if(hasSize==true) {
+      newName += " (" + sizedd.value + ")";
+    }  
+    var cartRef = firebase.database().ref().child("Users/1/Cart");
+    var newItemRef = cartRef.push();
+    newItemRef.set({
+    Name: newName,
+    Restaurant: res,
+    Image: image_name,
+    Cost: cst.value,
+    Quantity: qty.value,
+    Total: tot
+  });
+
+  window.location.href = 'cart.html';
+
+}
+
+function onSizeChange() {
+  var sizepath = "Items/"+itemkey+"/Cost";
+  var sizeRef = firebase.database().ref().child(sizepath);
+  var x = document.getElementById("sizedd").value;
+  sizeRef.on("value", function(snapShot) {
+    
+    hidden_price.value = snapShot.child(x).val();
+    item_price.innerHTML = "Cost: $ "+snapShot.child(x).val();
+  });
+}
+
+
+</script>
 
 
     <!-- Bootstrap core JavaScript

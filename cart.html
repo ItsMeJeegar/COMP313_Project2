@@ -62,10 +62,10 @@
 
     <div style="width:100%; height: auto; background-color: #d4df38; margin-top:-20px;">
     <div class="container" style="background-color: #aaaaaa">
-    <div class="row" style="height: 80px;">
-    <div class="col-md-3 col-sm-3 col-xs-6" style="background-color: #d4df38; height: inherit;"><img style="width: 100%; max-height: 100%; background-color: #555555;" src="img/logo.svg"></div>
-  <div class="col-md-6 col-sm-6 col-xs-6" style="background-color: #d4df38; height: inherit;"><img style="width: 100%; max-height: 100%;" src="img/mainlogo.png"></div>
-  <div class="col-md-3 col-sm-3 hidden-xs" style="background-color: #d4df38; height: inherit;">search box</div>
+   <div class="row" style="height: 80px;">
+  <div class="col-md-3 col-sm-6 col-xs-12" style="background-color: #d4df38; height: inherit;"><img style="width: 100%; max-height: 100%; background-color: #555555;" src="img/logo.svg"></div>
+  <div class="col-md-6 col-sm-6 hidden-xs" style="background-color: #d4df38; height: inherit; text-align: center;"><div style="width:100px; height:15px;"></div><img style="max-height: 50px;" src="img/mainlogo.png"></div>
+  <div class="col-md-3 hidden-sm hidden-xs" style="background-color: #d4df38; height: inherit;"></div>
     </div>
 </div>
 </div>
@@ -88,8 +88,8 @@
           </table>
            
         </div>
-        <div style="margin-left:1000px">
-            <button type="button" class="btn btn-sm" style="background-color:grey;color:white;font-size:20px">Check Out</button>
+        <div style="text-align: right;">
+            <button type="button" class="btn" style="background-color:grey;color:white;font-size:20px" onclick="window.location.href='checkout.html'">Checkout</button>
         </div>
         
 
@@ -142,15 +142,12 @@
       cRef.once('value', function(snapshot) {
           uCost = snapshot.val();
       });
-      window.alert(uCost);
-      window.alert(q);
-      uRef.once('value', function(snapshot) {
-          snapshot.ref().update({"Quantity": q});
-          snapshot.ref().update({"Total": uCost * q});
-      });
       
-
-
+      var updates = {};
+      updates['Users/1/Cart/' + ky+ '/Quantity'] = q;
+      updates['Users/1/Cart/' + ky+ '/Total'] = uCost * q;
+      firebase.database().ref().update(updates);
+      
       window.location.href = 'cart.html';
   }
 

@@ -8,7 +8,7 @@
     <meta name="author" content="">
     <link rel="icon" href="img/favicon.ico">
 
-    <title>CheckOut | foodCentennial</title>
+    <title>Checkout | foodCentennial</title>
 
     <!-- Bootstrap core CSS -->
     <link href="css/bootstrap/bootstrap.css" rel="stylesheet">
@@ -19,7 +19,8 @@
 
     <!-- Custom styles for this template -->
     <link href="css/theme.css" rel="stylesheet">
-
+ <script src="https://www.gstatic.com/firebasejs/3.7.0/firebase.js"></script>
+    <script src="js/firebase/init.js"></script>
     
   </head>
 
@@ -34,15 +35,15 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#">foodCentennial</a>
+         <a class="navbar-brand" href="index_home.html">foodCentennial</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-            <li class="active"><a href="#">Home</a></li>
-            <li><a href="#about">Food</a></li>
-            <li><a href="#contact">Restaurants</a></li>
-            <li><a href="#about">Orders</a></li>
-            <li><a href="#contact">Cart <span class="badge">0</span></a></li>
+            <li class="active"><a href="index_home.html">Home</a></li>
+            <li><a href="food_items.html">Food</a></li>
+            <li><a href="restaurants.html">Restaurants</a></li>
+            <li><a href="orders.html">Orders</a></li>
+            <li><a href="cart.html">Cart <span class="badge">0</span></a></li>
             
      
             <li class="dropdown">
@@ -62,9 +63,9 @@
     <div style="width:100%; height: auto; background-color: #d4df38; margin-top:-20px;">
     <div class="container" style="background-color: #aaaaaa">
     <div class="row" style="height: 80px;">
-    <div class="col-md-3 col-sm-3 col-xs-6" style="background-color: #d4df38; height: inherit;"><img style="width: 100%; max-height: 100%; background-color: #555555;" src="img/logo.svg"></div>
-  <div class="col-md-6 col-sm-6 col-xs-6" style="background-color: #d4df38; height: inherit;"><img style="width: 100%; max-height: 100%;" src="img/mainlogo.png"></div>
-  <div class="col-md-3 col-sm-3 hidden-xs" style="background-color: #d4df38; height: inherit;">search box</div>
+  <div class="col-md-3 col-sm-6 col-xs-12" style="background-color: #d4df38; height: inherit;"><img style="width: 100%; max-height: 100%; background-color: #555555;" src="img/logo.svg"></div>
+  <div class="col-md-6 col-sm-6 hidden-xs" style="background-color: #d4df38; height: inherit; text-align: center;"><div style="width:100px; height:15px;"></div><img style="max-height: 50px;" src="img/mainlogo.png"></div>
+  <div class="col-md-3 hidden-sm hidden-xs" style="background-color: #d4df38; height: inherit;"></div>
     </div>
 </div>
 </div>
@@ -73,15 +74,12 @@
   
 <div class="page-header">
         <h1>CHECKOUT</h1><hr style="border-style:inset">
-        <h3>CUSTOMER INFORMATION:</h3>
-        Name: <input name="custName" type="text">
-        <h3>ORDER DETAILS:</h3>
       </div>
 
 <div class="row"
        <div class="col-md-6">
            
-          <table class="table table-bordered">
+          <table class="table table-bordered" id="check">
             <thead style="text-align:center">
               <tr>
                 <th>Item</th>
@@ -91,52 +89,7 @@
                 
               </tr>
             </thead>
-            <tbody>
-              <tr>
-                <td>
-                    <div style="height:200%; text-align:center; ">
-                        Coffee
-                    <img class="center-block" src="img/items/coffee.png" height="80px" width="70px"/>
-                      
-                    </div>
-                    
-                </td>
-                <td>$1.75</td>
-                <td><input name="quantity" type="text" style="width: 35px" >
-                <button type="button" class="btn btn-sm" style="background-color:grey;color:white">Update</button></td>
-                <td>$1.75</td>
-                </tr>
-
-              <tr>
-                <td>
-                    <div style="height:200%; text-align:center; ">
-                        Pizza Cheese Slice
-                    <img class="center-block" src="img/items/cheese.png" height="80px" width="70px"/>
-                      
-                    </div></td>
-                <td>$3.99</td>
-                <td><input name="quantity" type="text" style="width: 35px" >
-                <button type="button" class="btn btn-sm" style="background-color:grey;color:white">Update</button></td>
-                <td>$3.99</td>
-                </tr>
-              <tr>
-                  <td colspan="3" style="text-align:right">Total</td>
-                  <td>$5.74</td>
-                  
-              </tr>
-              
-              <tr>
-                  <td colspan="3" style="text-align:right">HST @13%</td>
-                  <td>$0.74</td>
-                  
-              </tr>
-              <tr>
-                  <td colspan="3" style="text-align:right">Amount Payable</td>
-                  <td>$6.48</td>
-                  
-              </tr>
-              
-            </tbody>
+            
             
           </table>
 
@@ -151,7 +104,7 @@
                  </select>  
               </td>
             </tr>
-            <tr>
+            <!--<tr>
               <td colspan="2">
                  <input name="cardNumber" placeholder="Card Number" type="text">
               </td>
@@ -173,15 +126,15 @@
               <td colspan="2">
                  <input name="cvvNumber" placeholder="CVV" type="text">
               </td>
-            </tr>
+            </tr>-->
           </table>
           
         </div>
 
         </div>
 
-        <div style="margin-left:800px;margin-bottom:20px">
-            <button type="button" class="btn btn-sm" style="background-color:grey;color:white;font-size:20px">Confirm Order</button>
+        <div style="text-align: right;">
+            <button type="button" class="btn btn-sm" style="background-color:grey;color:white;font-size:20px" onclick="placeOrder()">Confirm Order</button>
         </div>
 
 
@@ -199,7 +152,79 @@
         &#169; 2017 Centennial College. All Rights Reserved.
       </div>
 
+<script>
 
+ 
+  var checkoutbody = document.getElementById("check");
+  var cartRef = firebase.database().ref().child("Users/1/Cart");
+  var total = "", tax = "", grandtotal = "";
+  //cartbody.innerHTML = "";
+  cartRef.on("value", function(snapShot) {
+    snapShot.forEach(function(childSnapShot){
+      var childData = childSnapShot.val();
+      // var costSnapShot = childSnapShot.child("Cost");
+      // costSnapShot.forEach(function(costs){
+      //   window.alert(costs.key+" - "+costs.val()); 
+      // });
+
+      var finaldata = '<tr><td><div style="height:200%; text-align:center; ">'; 
+      finaldata += childData.Name+'<img class="center-block hidden-xs" src="img/items/'+childData.Image+'" height="80px" width="70px"/></div></td>'; 
+      finaldata += ' <td>$ '+childData.Cost+'</td><td>'+childData.Quantity+'</td><td>$ '+childData.Total+'</td></tr>';    
+      checkoutbody.innerHTML += finaldata;
+      total = total + childData.Total;
+      
+
+    }); 
+    total = parseFloat(total);
+    total = Number(total).toFixed(2); 
+    
+    tax = total * 0.13;
+    tax = parseFloat(tax);
+    tax = Number(tax).toFixed(2); 
+    
+    grandtotal = parseFloat(total) + parseFloat(tax);
+
+    var otherdata = '<tr><td colspan="3" style="text-align:right">Total</td><td>$ '+total+'</td></tr>';
+    otherdata += '<tr><td colspan="3" style="text-align:right">HST @13%</td><td>$ '+tax+'</td></tr>';
+    otherdata += '<tr><td colspan="3" style="text-align:right">Amount Payable</td><td>$ '+grandtotal+'</td></tr>';
+    checkoutbody.innerHTML += otherdata;
+  });
+
+
+  function removeFromCart(x) {
+      cartRef.child(x).remove();
+      window.location.href = 'cart.html';
+  }
+  
+  function placeOrder() {
+    //get new order NUMBER in C
+    var c = Math.floor((Math.random() * 1000) + 1);
+    
+    var orderRef = firebase.database().ref().child("Orders");
+    var cartRef = firebase.database().ref().child("Users/1/Cart");
+    cartRef.on("value", function(snapShot) {
+      
+      var newOrderRef = orderRef.push();
+      newOrderRef.set({
+        OrderID: c,
+        StudentID: '300851770',
+        Items: snapShot.val(),
+        Total: total,
+        Tax: tax,
+        GrandTotal: grandtotal
+  });
+
+  window.location.href = 'index_home.html';
+  });
+  }
+function Items(Name, Cost, Quantity, Total, Status) {
+    this.Name = Name;
+    this.Cost = Cost;
+    this.Quantity = Quantity;
+    this.Total = Total;
+    this.Status = Status;
+}
+</script>
 
        <!-- Bootstrap core JavaScript
     ================================================== -->

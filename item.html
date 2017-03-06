@@ -36,15 +36,15 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#">foodCentennial</a>
+          <a class="navbar-brand" href="index_home.html">foodCentennial</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-            <li class="active"><a href="#">Home</a></li>
-            <li><a href="#about">Food</a></li>
-            <li><a href="#contact">Restaurants</a></li>
-            <li><a href="#about">Orders</a></li>
-            <li><a href="#contact">Cart <span class="badge">0</span></a></li>
+            <li class="active"><a href="index_home.html">Home</a></li>
+            <li><a href="food_items.html">Food</a></li>
+            <li><a href="restaurants.html">Restaurants</a></li>
+            <li><a href="orders.html">Orders</a></li>
+            <li><a href="cart.html">Cart <span class="badge">0</span></a></li>
             
      
             <li class="dropdown">
@@ -82,7 +82,7 @@
             <img id="item-image" class="center-block" style="height:100%; margin: auto; border: 1px solid #999999;"/>
          </div>
          <div style="line-height: 47px; font-size: 18px;">  
-        <h2><button type="button" class="btn btn-info">Add to cart</button></h2>
+        <h2><button type="button" class="btn btn-info" onclick="addToCart()">Add to cart</button></h2>
 
                 <select id="quantity">
                     <option>1</option>
@@ -103,6 +103,7 @@
          
          <h4 id="item-size"></h4>
           <h4 id="item-price"></h4>
+          <input type="hidden" id="cst"/>
                  
           
          </div>
@@ -146,7 +147,9 @@ var item_rest = document.getElementById("item-restaurant");
 var item_size = document.getElementById("item-size");
 var item_desc = document.getElementById("item-desc");
 var item_price = document.getElementById("item-price");
-
+var hidden_price = document.getElementById("cst");
+var image_name = "";
+var hasSize = false;
 
 var path = "Items/"+itemkey;
 var restRef = firebase.database().ref().child(path);
@@ -157,9 +160,11 @@ restRef.on('value', function(datasnapshot) {
   item_rest.innerHTML = childData.Restaurant;
   item_desc.innerHTML = childData.Description;
   item_image.src = 'img/items/'+childData.Image;
+  image_name = childData.Image;
 
   if(datasnapshot.child('Cost').hasChildren()) {
       //Size dropdown generated
+      hasSize = true;
       var sizedropdata = 'Select Size: <select id="sizedd" name="sizedd" onchange="onSizeChange()">';
       var costSnapShot = datasnapshot.child("Cost");
       costSnapShot.forEach(function(costs){
@@ -173,13 +178,34 @@ restRef.on('value', function(datasnapshot) {
 
   }
   else {
-    window.alert("else");
+    hidden_price.value = datasnapshot.child('Cost').val();
     item_price.innerHTML = "Cost: $ "+datasnapshot.child('Cost').val();
   }
 
 });
 
 function addToCart() {
+    var qty = document.getElementById("quantity");
+    var res = item_rest.innerHTML;
+    var cst = document.getElementById("cst");
+    var tot = cst.value * qty.value;
+    tot = Number(tot).toFixed(2); 
+    var newName = item_name.innerHTML;
+    if(hasSize==true) {
+      newName += " (" + sizedd.value + ")";
+    }  
+    var cartRef = firebase.database().ref().child("Users/1/Cart");
+    var newItemRef = cartRef.push();
+    newItemRef.set({
+    Name: newName,
+    Restaurant: res,
+    Image: image_name,
+    Cost: cst.value,
+    Quantity: qty.value,
+    Total: tot
+  });
+
+  window.location.href = 'cart.html';
 
 }
 
@@ -189,7 +215,7 @@ function onSizeChange() {
   var x = document.getElementById("sizedd").value;
   sizeRef.on("value", function(snapShot) {
     
-
+    hidden_price.value = snapShot.child(x).val();
     item_price.innerHTML = "Cost: $ "+snapShot.child(x).val();
   });
 }

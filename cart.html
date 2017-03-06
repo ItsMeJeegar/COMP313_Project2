@@ -19,7 +19,8 @@
 
     <!-- Custom styles for this template -->
     <link href="css/theme.css" rel="stylesheet">
-
+     <script src="https://www.gstatic.com/firebasejs/3.7.0/firebase.js"></script>
+    <script src="js/firebase/init.js"></script>
     
   </head>
 
@@ -34,15 +35,15 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand" href="#">foodCentennial</a>
+       <a class="navbar-brand" href="index_home.html">foodCentennial</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-            <li class="active"><a href="#">Home</a></li>
-            <li><a href="#about">Food</a></li>
-            <li><a href="#contact">Restaurants</a></li>
-            <li><a href="#about">Orders</a></li>
-            <li><a href="#contact">Cart <span class="badge">0</span></a></li>
+            <li class="active"><a href="index_home.html">Home</a></li>
+            <li><a href="food_items.html">Food</a></li>
+            <li><a href="restaurants.html">Restaurants</a></li>
+            <li><a href="orders.html">Orders</a></li>
+            <li><a href="cart.html">Cart <span class="badge">0</span></a></li>
             
      
             <li class="dropdown">
@@ -68,64 +69,21 @@
     </div>
 </div>
 </div>
-
+ 
 <div class="container theme-showcase" role="main" style="background-color: #eeeeee; padding-top: 15px;">
   
-<div class="page-header">
-        <h1>Cart</h1>
-        <h3 style="color: red;">Item successfully added to Cart!</h3>
-      </div>
-
 <div class="row"
        <div class="col-md-6">
-          <table class="table table-bordered">
+          <table class="table table-bordered" id="cartb">
             <thead style="text-align:center">
               <tr>
                 <th>Item</th>
-                <th>Price</th>
+                <th>Cost</th>
                 <th>Quantity</th>
                 <th>Subtotal</th>
                 <th></th>
               </tr>
             </thead>
-            <tbody>
-              <tr>
-                <td>
-                    <div style="height:200%; text-align:center; ">
-                        Coffee
-                    <img class="center-block" src="img/items/coffee.png" height="80px" width="70px"/>
-                      
-                    </div>
-                    
-                </td>
-                <td>$1.75</td>
-                <td><input name="quantity" type="text" style="width: 35px" >
-                <button type="button" class="btn btn-sm" style="background-color:grey;color:white">Update</button></td>
-                <td>$1.75</td>
-                <td><button type="button" class="btn btn-sm"/><img class="center-block" src="img/cancel.png" height="30px" width="30px"></td>
-              </tr>
-
-              <tr>
-                <td>
-                    <div style="height:200%; text-align:center; ">
-                        Pizza Cheese Slice
-                    <img class="center-block" src="img/items/cheese.png" height="80px" width="70px"/>
-                      
-                    </div></td>
-                <td>$3.99</td>
-                <td><input name="quantity" type="text" style="width: 35px" >
-                <button type="button" class="btn btn-sm" style="background-color:grey;color:white">Update</button></td>
-                <td>$3.99</td>
-                <td><button type="button" class="btn btn-sm"/><img class="center-block" src="img/cancel.png" height="30px" width="30px"></td>
-              </tr>
-              <tr>
-                  <td colspan="3" style="text-align:right">Total</td>
-                  <td></td>
-                  <td></td>
-              </tr>
-              
-              
-            </tbody>
             
           </table>
            
@@ -141,7 +99,62 @@
 <div style="width:100%; height:40px; line-height: 38px; margin-bottom: -30px; text-align: center; background-color: #555555; color: #cccccc;">
         &#169; 2017 Centennial College. All Rights Reserved.
       </div>
+ <script>
 
+ 
+  var cartbody = document.getElementById("cartb");
+  var cartRef = firebase.database().ref().child("Users/1/Cart");
+  var total = "";
+  //cartbody.innerHTML = "";
+  cartRef.on("value", function(snapShot) {
+    snapShot.forEach(function(childSnapShot){
+      var childData = childSnapShot.val();
+      // var costSnapShot = childSnapShot.child("Cost");
+      // costSnapShot.forEach(function(costs){
+      //   window.alert(costs.key+" - "+costs.val()); 
+      // });
+
+      var cartdata = '<tr><td><div style=" text-align:center; ">'; 
+      cartdata += childData.Name+'<br><img class="center-block hidden-xs" src="img/items/'+childData.Image+'" height="80px" width="70px"/>';
+      cartdata += '</div></td><td>$ '+childData.Cost+'</td><td><form method="get"><input name="quantity" type="text" style="width: 35px" value="'+childData.Quantity+'">';
+      cartdata += '<input type="hidden" name="ky" value="'+childSnapShot.key+'"/><input type="submit" class="btn btn-sm" style="background-color:grey; color:white;" value="Update" onclick="updateCart(this.form)"/></form></td>';
+      cartdata += '<td>$ '+childData.Total+'</td><td><input type="button" class="center-block" value="X" height="12px" width="12px" onclick="removeFromCart(\''+childSnapShot.key+'\')"/></td></tr>';
+      cartdata += '';
+      cartbody.innerHTML += cartdata;
+      total = total + childData.Total;
+    }); 
+    cartbody.innerHTML += '<tr><td colspan="3" style="text-align:right">Total</td><td>$ '+total+'</td><td></td></tr>';
+  });
+
+
+  function removeFromCart(x) {
+      cartRef.child(x).remove();
+      window.location.href = 'cart.html';
+  }
+
+  function updateCart(form) {
+      var q = form.quantity.value;
+      var ky = form.ky.value;
+      var cRef = cartRef.child(ky).child('Cost');
+      
+      var uRef = cartRef.child(ky);
+      var uCost = "";
+      cRef.once('value', function(snapshot) {
+          uCost = snapshot.val();
+      });
+      window.alert(uCost);
+      window.alert(q);
+      uRef.once('value', function(snapshot) {
+          snapshot.ref().update({"Quantity": q});
+          snapshot.ref().update({"Total": uCost * q});
+      });
+      
+
+
+      window.location.href = 'cart.html';
+  }
+
+</script>
 
 
        <!-- Bootstrap core JavaScript

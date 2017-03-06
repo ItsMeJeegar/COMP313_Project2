@@ -104,7 +104,7 @@
  
   var cartbody = document.getElementById("cartb");
   var cartRef = firebase.database().ref().child("Users/1/Cart");
-  var total = "";
+  var total = 0;
   //cartbody.innerHTML = "";
   cartRef.on("value", function(snapShot) {
     snapShot.forEach(function(childSnapShot){
@@ -121,8 +121,9 @@
       cartdata += '<td>$ '+childData.Total+'</td><td><input type="button" class="center-block" value="X" height="12px" width="12px" onclick="removeFromCart(\''+childSnapShot.key+'\')"/></td></tr>';
       cartdata += '';
       cartbody.innerHTML += cartdata;
-      total = total + childData.Total;
+      total = parseFloat(total) + parseFloat(childData.Total);
     }); 
+    totaltotal = Number(total).toFixed(2);
     cartbody.innerHTML += '<tr><td colspan="3" style="text-align:right">Total</td><td>$ '+total+'</td><td></td></tr>';
   });
 

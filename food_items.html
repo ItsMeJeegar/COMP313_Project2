@@ -24,7 +24,7 @@
     <script src="js/firebase/init.js"></script>
   </head>
 
-  <body style="background-color: #888888">
+  <body style="background-color: #888888;">
 
 <nav class="navbar navbar-inverse navbar-fixed-top">
       <div class="container">
@@ -39,11 +39,11 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
-            <li class="active"><a href="index_home.html">Home</a></li>
-            <li><a href="food_items.html">Food</a></li>
+            <li><a href="index_home.html">Home</a></li>
+            <li class="active"><a href="food_items.html">Food</a></li>
             <li><a href="restaurants.html">Restaurants</a></li>
             <li><a href="orders.html">Orders</a></li>
-            <li><a href="cart.html">Cart <span class="badge">0</span></a></li>
+            <li><a href="cart.html">Cart <span id="cartcount" class="badge">0</span></a></li>
             
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Account <span class="caret"></span></a>
@@ -71,14 +71,14 @@
 </div>
 
 
-<div class="container theme-showcase" role="main" style="background-color: #eeeeee; padding-top: 15px;">
+<div class="container theme-showcase" role="main" style="background-color: #eeeeee; padding-top: 15px; min-height: 800px;">
   
 <div class="page-header">
         <h1 id="foodhead">All Food</h1>
       </div>
 
 <div class="row" id="fooditems">
-
+<script src="js/firebase/main.js"></script>
   <script>
 function get(name){
    if(name=(new RegExp('[?&]'+encodeURIComponent(name)+'=([^&]*)')).exec(location.search))
@@ -120,7 +120,7 @@ else {
       //   window.alert(costs.key+" - "+costs.val()); 
       // });
       
-      var fooddata = '<a href="item.html?key='+childSnapShot.key+'"><div class="col-md-3 col-sm-4 col-xs-6" style="height:250px; text-align: center;">'; 
+      var fooddata = '<a href="item.html?key='+childSnapShot.key+'"><div class="col-md-3 col-sm-4 col-xs-6" style="height:280px; text-align: center;">'; 
       fooddata += '<div style="width:100%; height:10px;"></div><div style="width:100%; height:180px;">'; 
       fooddata += '<img class="center-block" src="img/items/'+childData.Image+'" style="height:100%; border: 1px solid #555555; margin: auto;"/>';
       fooddata += '</div><div style="line-height: 47px; font-size: 18px;">';
@@ -131,7 +131,9 @@ else {
       fooditems.innerHTML += fooddata;
     }); 
   });
-  }
+}
+
+getCartCountAndDisplay();
 </script>
     
 

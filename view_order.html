@@ -43,7 +43,7 @@
             <li><a href="food_items.html">Food</a></li>
             <li><a href="restaurants.html">Restaurants</a></li>
             <li><a href="orders.html">Orders</a></li>
-            <li><a href="cart.html">Cart <span class="badge">0</span></a></li>
+            <li><a href="cart.html">Cart <span id="cartcount" class="badge">0</span></a></li>
             
 
                     <li class="dropdown">
@@ -119,24 +119,36 @@ var obody = document.getElementById('obody');
 var path = "Orders/"+orderkey;
 var orderRef = firebase.database().ref().child(path);
 var itemsRef = firebase.database().ref().child(path+'/Items');
-itemsRef.on('value', function(datasnapshot) {
-datasnapshot.forEach(function(childSnapShot){
-  var childData = childSnapShot.val();
-  
-    data += '<tr><td><div style="height:200%; text-align:center; ">'+childData.Name+'</div></td><td><div style="height:200%; text-align:center; ">'+childData.Restaurant+'</div></td>';
-    data += '<td><div style="height:200%; text-align:center; ">'+childData.Cost+'</div></td><td><div style="height:200%; text-align:center; ">'+childData.Quantity+'</div></td>';
-    data += '<td><div style="height:200%; text-align:center; ">'+childData.Total+'</div></td><td><div style="height:200%; text-align:center; ">Placed</div></td></tr>';
-});
-
-obody.innerHTML += data;
-});
 
 
 orderRef.on('value', function(dss) {
+obody.innerHTML = " ";
+itemsRef.on('value', function(datasnapshot) {
+datasnapshot.forEach(function(childSnapShot){
+  var childData = childSnapShot.val();
+    var color = "black";
+    if(childData.Status == "Placed") {
+        color = "purple";
+    }
+    if(childData.Status == "Ready") {
+        color = "green";
+    }
+    if(childData.Status == "Picked Up") {
+        color = "blue";  
+    }
+    if(childData.Status == "Cancelled") {
+        color = "red";  
+    }
+    data = '<tr><td><div style="height:200%; text-align:center; ">'+childData.Name+'</div></td><td><div style="height:200%; text-align:center; ">'+childData.Restaurant+'</div></td>';
+    data += '<td><div style="height:200%; text-align:center; ">'+childData.Cost+'</div></td><td><div style="height:200%; text-align:center; ">'+childData.Quantity+'</div></td>';
+    data += '<td><div style="height:200%; text-align:center; ">'+childData.Total+'</div></td><td><div style="height:200%; text-align:center; font-weight: bold; color:'+color+'; ">'+childData.Status+'</div></td></tr>';
+    obody.innerHTML += data;
+});
+});
   var childData = dss.val();
   var odn = document.getElementById("odn");
     odn.innerHTML += childData.OrderID; 
-    fdata += '<tr><td colspan="4"><div style="height:200%; text-align:right; font-weight:bold;">Total</div></td><td><div style="height:200%; text-align:center; ">'+childData.Total+'</div></td></tr>';
+    fdata = '<tr><td colspan="4"><div style="height:200%; text-align:right; font-weight:bold;">Total</div></td><td><div style="height:200%; text-align:center; ">'+childData.Total+'</div></td></tr>';
     fdata += '<tr><td colspan="4"><div style="height:200%; text-align:right; font-weight:bold;">Tax</div></td><td><div style="height:200%; text-align:center; ">'+childData.Tax+'</div></td></tr>';
     fdata += '<tr><td colspan="4"><div style="height:200%; text-align:right; font-weight:bold;">Grand Total</div></td><td><div style="height:200%; text-align:center; ">'+childData.GrandTotal+'</div></td></tr>';
     obody.innerHTML += fdata;

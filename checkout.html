@@ -43,7 +43,7 @@
             <li><a href="food_items.html">Food</a></li>
             <li><a href="restaurants.html">Restaurants</a></li>
             <li><a href="orders.html">Orders</a></li>
-            <li><a href="cart.html">Cart <span class="badge">0</span></a></li>
+            <li><a href="cart.html">Cart <span id="cartcount" class="badge">0</span></a></li>
             
      
             <li class="dropdown">
@@ -183,9 +183,10 @@
     tax = Number(tax).toFixed(2); 
     
     grandtotal = parseFloat(total) + parseFloat(tax);
-
+    
     var otherdata = '<tr><td colspan="3" style="text-align:right">Total</td><td>$ '+total+'</td></tr>';
     otherdata += '<tr><td colspan="3" style="text-align:right">HST @13%</td><td>$ '+tax+'</td></tr>';
+    //otherdata += '<tr><td colspan="3" style="text-align:right">COUPON: <input type="text"><input type="button" id="couponcode" value="Use"><input type="button" value="Remove" onclick=""></td><td>'+discount+'</td></tr>';
     otherdata += '<tr><td colspan="3" style="text-align:right">Amount Payable</td><td>$ '+grandtotal+'</td></tr>';
     checkoutbody.innerHTML += otherdata;
   });
@@ -198,24 +199,41 @@
   
   function placeOrder() {
     //get new order NUMBER in C
-    var c = Math.floor((Math.random() * 1000) + 1);
-    
+
+    var today = new Date();
+
+    var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+    var time = today.getHours() + ":" + today.getMinutes();
+    var datetime = date+' '+time;
     var orderRef = firebase.database().ref().child("Orders");
+    var currentRef = firebase.database().ref().child("current");
     var cartRef = firebase.database().ref().child("Users/1/Cart");
-    cartRef.on("value", function(snapShot) {
-      
-      var newOrderRef = orderRef.push();
-      newOrderRef.set({
-        OrderID: c,
-        StudentID: '300851770',
-        Items: snapShot.val(),
-        Total: total,
-        Tax: tax,
-        GrandTotal: grandtotal
+    cartRef.once("value").then(function(snapShot) {
+      currentRef.once("value").then( function(currShot) {
+          
+          var con = currShot.val();
+          con = parseFloat(con);
+          alert("Got order number "+con)
+          var newOrderRef = orderRef.push();
+          newOrderRef.set({
+            OrderID: con,
+            StudentID: '300851770',
+            Items: snapShot.val(),
+            Total: total,
+            Tax: tax,
+            GrandTotal: grandtotal,
+            DateTime: datetime
+          });
+
+          var updates = {};
+          updates['current'] = con + 1;
+          firebase.database().ref().update(updates);
+          cartRef.remove();
+          window.location.href = 'orders.html';
+      });  
   });
 
-  window.location.href = 'orders.html';
-  });
+  
   }
 function Items(Name, Cost, Quantity, Total, Status) {
     this.Name = Name;

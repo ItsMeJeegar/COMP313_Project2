@@ -43,7 +43,7 @@
             <li><a href="food_items.html">Food</a></li>
             <li><a href="restaurants.html">Restaurants</a></li>
             <li><a href="orders.html">Orders</a></li>
-            <li><a href="cart.html">Cart <span class="badge">0</span></a></li>
+            <li><a href="cart.html">Cart <span id="cartcount" class="badge">0</span></a></li>
             
      
             <li class="dropdown">
@@ -99,6 +99,7 @@
 <div style="width:100%; height:40px; line-height: 38px; margin-bottom: -30px; text-align: center; background-color: #555555; color: #cccccc;">
         &#169; 2017 Centennial College. All Rights Reserved.
       </div>
+      <script src="js/firebase/main.js"></script>
  <script>
 
  
@@ -123,7 +124,7 @@
       cartbody.innerHTML += cartdata;
       total = parseFloat(total) + parseFloat(childData.Total);
     }); 
-    totaltotal = Number(total).toFixed(2);
+    total = Number(total).toFixed(2);
     cartbody.innerHTML += '<tr><td colspan="3" style="text-align:right">Total</td><td>$ '+total+'</td><td></td></tr>';
   });
 
@@ -152,9 +153,11 @@
       window.location.href = 'cart.html';
   }
 
+getCartCountAndDisplay();
 </script>
 
 
+<script src="js/main.js"></script>
        <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->

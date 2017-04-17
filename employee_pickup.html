@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="img/favicon.ico">
+
+    <title>Food | foodCentennial</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap/bootstrap.css" rel="stylesheet">
+    <!-- Bootstrap theme -->
+    <link href="css/bootstrap/bootstrap-theme.css" rel="stylesheet">
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <link href="css/bootstrap/ie10-viewport-bug-workaround.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="css/theme.css" rel="stylesheet">
+
+    <script src="https://www.gstatic.com/firebasejs/3.7.0/firebase.js"></script>
+    <script src="js/firebase/init.js"></script>
+  </head>
+
+  <body style="background-color: #222222;">
+
+<nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+            <span class="sr-only"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+        <a class="navbar-brand" href="index_home.html">foodCentennial</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+         <ul class="nav navbar-nav">
+            <li><a href="employee_orders.html">Orders</a></li>
+            <li class="active"><a href="employee_pickup.html">Pickups</a></li>
+            <li><a href="#">Items</a></li>
+             <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Account <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><a href="#">Settings</a></li>
+            
+              </ul>
+            </li>
+        
+            <li><a href="#about">Logout</a></li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+
+<div style="width:100%; height: auto; background-color: #555555; margin-top:-20px;">
+<div class="container" style="background-color: #555555">
+   <div class="row" style="height: 80px;">
+  <div class="col-md-3 col-sm-6 col-xs-12" style="background-color: #555555; height: inherit;"><img style="width: 100%; max-height: 100%; background-color: #555555;" src="img/logo.svg"></div>
+  <div class="col-md-6 col-sm-6 hidden-xs" style="background-color: #555555; height: inherit; text-align: center;"><div style="width:100px; height:15px;"></div><img style="max-height: 50px;" src="img/mainlogo.png"></div>
+  <div class="col-md-3 hidden-sm hidden-xs" style="background-color: #555555; height: inherit;"></div>
+    </div>
+</div>
+</div>
+
+
+<div class="container theme-showcase" role="main" style="background-color: #333333; padding-top: 15px; min-height: 800px;">
+  
+        <h2 id="foodhead" style="color: #cccccc">Pick Up List</h2>
+
+
+<div class="row" id="emporders">
+
+<script src="js/firebase/main.js"></script>
+  <script>
+function get(name){
+   if(name=(new RegExp('[?&]'+encodeURIComponent(name)+'=([^&]*)')).exec(location.search))
+      return decodeURIComponent(name[1]);
+}
+
+
+  var emporders = document.getElementById("emporders");
+  
+  //var resname = get("resname");
+  //var resname = firebase.database().ref().child("Items");
+  var resname = 'Tim Hortons';
+  var hasItems = false;
+  var latestOrderRef = firebase.database().ref().child("Orders").orderByChild('OrderID').limitToFirst(8);
+  var orderRef = firebase.database().ref().child("Orders");
+  latestOrderRef.on("value", function(orderSnapShot) {
+    emporders.innerHTML = '';
+    orderSnapShot.forEach(function(childSnapShot){
+      var childData = childSnapShot.val();
+      var emporderdata = '';
+      emporderdata += '<div class="col-md-12 col-sm-12 col-xs-12" style="height:40px; background-color: #333333; color: #dddddd; outline: 1px solid #dddddd; font-size: 20px; line-height: 40px;">';
+      emporderdata += '<div style="width:80%; height:40px; float: left;">Order ID: '+childData.OrderID+'';
+  //1 x Coffee <br>
+  //2 x Bagel <br>
+
+      hasItems = false;
+      var itemRef = orderRef.child(childSnapShot.key+'/Items');
+      itemRef.on("value", function(itemsSnapShot) {
+      
+        itemsSnapShot.forEach(function (itemSnapShot){
+          
+          var itemData = itemSnapShot.val();
+          
+          if(itemData.Restaurant == resname && itemData.Status == 'Ready') {
+       
+            hasItems = true;
+          }
+
+        });
+      
+      });
+emporderdata += '</div><div style="width:20%; height: 40px; float: left; text-align: center;">';
+emporderdata += '<input type="button" class="btn-sm btn-success" value="Picked Up" style="width:150px;" onclick="orderPickedUp(\''+childSnapShot.key+'\',\''+childData.Restaurant+'\')"></div></div>';
+if(hasItems==true) {
+  emporders.innerHTML += emporderdata;
+}
+    }); 
+  });
+
+
+function orderPickedUp(orderkey,restaurant) {
+var itemRef = orderRef.child(orderkey+'/Items');
+itemRef.orderByChild("Restaurant").equalTo(resname).on("value", function(snapShot) {
+  snapShot.forEach(function(childSnapShot){
+      var childData = childSnapShot.val();
+      var itemkey = childSnapShot.key;
+      var updates = {};
+      updates['Orders/'+orderkey+'/Items/'+itemkey+'/Status'] = 'Picked Up';
+      firebase.database().ref().update(updates);
+  });
+});
+}
+</script>
+    
+
+</div>
+</div>
+<div style="width:100%; height:40px; line-height: 38px; margin-bottom: -30px; text-align: center; background-color: #555555; color: #cccccc;">
+        &#169; 2017 Centennial College. All Rights Reserved.
+      </div>
+
+
+       <!-- Bootstrap core JavaScript
+    ================================================== -->
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="js/bootstrap/jquery.min.js"><\/script>')</script>
+    <script src="js/bootstrap/bootstrap.js"></script>
+    <script src="js/bootstrap/docs.min.js"></script>
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="js/bootstrap/ie10-viewport-bug-workaround.js"></script>
+
+    
+  </body>
+</html>

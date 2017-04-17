@@ -43,7 +43,7 @@
             <li><a href="food_items.html">Food</a></li>
             <li><a href="restaurants.html">Restaurants</a></li>
             <li><a href="orders.html">Orders</a></li>
-            <li><a href="cart.html">Cart <span class="badge">0</span></a></li>
+            <li><a href="cart.html">Cart <span id="cartcount" class="badge">0</span></a></li>
             
 
                     <li class="dropdown">
@@ -84,27 +84,13 @@
                     <thead style="text-align:center">
                         <tr>
                             <th>Order No.</th>
-                            <th>Date</th>
-                            <th>Time</th>
+                            <th>Date and Time</th>
                             <th></th>
                             
                         </tr>
                     </thead>
                     <tbody id="obody">
 
-
-                        <tr>
-                            <td>
-                                <div style="height:200%; text-align:center; ">
-                                    1
-                                </div>
-                            </td>
-                            <td></td>
-
-                            <td></td>
-
-                            <td><a href="view_order.html?key='+childSnapshot.key+'">View</a></td>
-                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -121,13 +107,14 @@ var data = '';
 var fdata = '';
 var obody = document.getElementById('obody');
 var path = "Orders";
-var orderRef = firebase.database().ref().child(path);
+var orderRef = firebase.database().ref().child(path).orderByChild('OrderID');
 var itemsRef = firebase.database().ref().child(path+'/Items');
 orderRef.on('value', function(datasnapshot) {
+    obody.innerHTML = '';
     datasnapshot.forEach(function(childsnapshot){
     var childData = childsnapshot.val();
-    data += '<tr><td><div style="height:200%; text-align:center; ">'+childData.OrderID+'</div></td><td></td>';
-    data += ' <td></td><td><a href="view_order.html?key='+childsnapshot.key+'">View</a></td></tr>';
+    data += '<tr><td><div style="height:200%; text-align:center; ">'+childData.OrderID+'</div></td><td>'+childData.DateTime+'</td>';
+    data += ' <td><a href="view_order.html?key='+childsnapshot.key+'">View</a></td></tr>';
 });
 
 obody.innerHTML += data;

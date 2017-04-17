@@ -76,25 +76,15 @@
 <div class="container theme-showcase" role="main" style="background-color: #eeeeee; padding-top: 15px;">
 
     <div class="row">
-        <div class="col-md-4 col-sm-6 col-xs-12" style=" height:350px; text-align: center;">
+        <div class="col-md-4 col-sm-6 col-xs-12" style=" height:250px; text-align: center;">
          <div style="height:30px; width:100px;"></div>
          <div style="width:100%; height:200px;">
             <img id="item-image" class="center-block" style="height:100%; margin: auto; border: 1px solid #999999;"/>
          </div>
-         <div style="line-height: 47px; font-size: 18px;">  
-        <h2><button type="button" class="btn btn-info" onclick="addToCart()">Add to cart</button></h2>
-
-                <select id="quantity">
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
-                </select>
-        </div>
+    
 </div>
 
-       <div class="col-md-8 col-sm-6 col-xs-12" style="height:300px;">
+       <div class="col-md-8 col-sm-6 col-xs-12" style="height:200px;">
          
          <div style=" height: 180px;">
            <br>
@@ -104,32 +94,29 @@
          <h4 id="item-size"></h4>
           <h4 id="item-price"></h4>
           <input type="hidden" id="cst"/>
-                 
           
          </div>
          <div style="line-height: 47px;height: 120px;">
-         <h4>Description</h4>
-         <h4 id="item-desc"></h4>
-          
+
          </div>
-
-
         </div>
         <div class="col-md-12 col-sm-12 col-xs-12" style=" background-color: #ffe5b5;">
          
-         <div style="line-height: 47px; height:auto; min-height: 400px; border-top: 1px solid black;background-color: #ffe5b5;">
-         <h3>Reviews</h3>
-         <h4 id = "avgr"><b>4.5/5 from 5 review(s)</b></h4>
-         
-         <div id="userreview" style="font-size: 18px; line-height: 24px;">
-           
-          </div>
-          <div id="otherreviews">
-          <h4><b>Other Reviews</b></h4>
-          Jeegar Shah - 4.5/5<br>
-          This si the best thing i have ever eaten i my enture life i cant uageing meing the best item on tim hortons well atleast there is something to eat in this country otherviw for vegetarians there is simple nothig, i wish there sas mcdonalds paneer burget iwth fires and coke and friends and chillinf and no one running behing money, anyway thats how life is and we cant do shit about it so grow up;
-          <br>
-          </div>
+         <div style="line-height: 47px; height:auto; min-height: 400px; border-top: 1px solid black;">
+         <h3>Review</h3>
+         <h4>Rating:&nbsp;&nbsp;&nbsp;
+          <input id="rating1" type="radio" name="rating" value="1"> &nbsp;1 &nbsp;&nbsp;
+          <input id="rating2" type="radio" name="rating" value="2"> &nbsp;2 &nbsp;&nbsp;
+          <input id="rating3" type="radio" name="rating" value="3"> &nbsp;3 &nbsp;&nbsp;
+          <input id="rating4" type="radio" name="rating" value="4"> &nbsp;4 &nbsp;&nbsp;
+          <input id="rating5" type="radio" name="rating" value="5" checked="checked"> &nbsp;5 
+
+         </h4>
+         <textarea id="review" style="width: 100%; height: 150px;"></textarea>
+         <br>
+         <h2><button type="button" class="btn btn-info" onclick="review()">Submit</button></h2>
+       
+       
 
          </div>
         </div>        
@@ -147,46 +134,22 @@ function get(name){
    if(name=(new RegExp('[?&]'+encodeURIComponent(name)+'=([^&]*)')).exec(location.search))
       return decodeURIComponent(name[1]);
 }
-  
-var itemkey = get("key");
-var userid = '1';
+var itemkey = get("key"); 
+var type = get("type");
+var reviewid = get("reviewid");
+var userid = "1";
+var fullname = "Rushabh Shah";
 var item_name = document.getElementById("item-name");
 var item_image = document.getElementById("item-image");
 var item_rest = document.getElementById("item-restaurant");
 var item_size = document.getElementById("item-size");
-var item_desc = document.getElementById("item-desc");
 var item_price = document.getElementById("item-price");
 var hidden_price = document.getElementById("cst");
-var yourreview = document.getElementById("userreview");
-var otherreviews = document.getElementById("otherreviews");
-
 var image_name = "";
 var hasSize = false;
 
 var path = "Items/"+itemkey;
 var restRef = firebase.database().ref().child(path);
-var reviewRef = firebase.database().ref().child('Reviews');
-reviewRef.orderByChild('ItemID').equalTo(itemkey).on("value",function(dataSnapShot){
-  var itemfound = false;
-  dataSnapShot.forEach(function(childSnapShot){
-  var reviewdata = childSnapShot.val();
-  
-  if(reviewdata.UserID == userid){
-    yourreview.innerHTML = '<h4><b>Your Review</b></h4>';
-    yourreview.innerHTML += '<b>'+reviewdata.FullName+' - '+reviewdata.Rating+' / 5</b><br>';
-    yourreview.innerHTML += reviewdata.Review;
-    yourreview.innerHTML += '<br><a href="review.html?type=edit&key='+itemkey+'&reviewid='+childSnapShot.key+'">Edit</a> <a onclick="deleteReview(\''+childSnapShot.key+'\')">Delete</a><br>';
-    itemfound = true;  
-  }
-  
-});
-
-if(itemfound == false) {
-  yourreview.innerHTML = '<b><a href="review.html?type=write&key='+itemkey+'">Write a review</a></b><br>';
-}
-});
-
-
 restRef.on('value', function(datasnapshot) {
 
   var childData = datasnapshot.val();
@@ -194,7 +157,6 @@ restRef.on('value', function(datasnapshot) {
   item_name.innerHTML = childData.Name;
   document.title = childData.Name + " | foodCentennial";
   item_rest.innerHTML = childData.Restaurant;
-  item_desc.innerHTML = childData.Description;
   item_image.src = 'img/items/'+childData.Image;
   image_name = childData.Image;
 
@@ -211,6 +173,7 @@ restRef.on('value', function(datasnapshot) {
       item_size.innerHTML = sizedropdata;
 
       onSizeChange();
+
   }
   else {
     hidden_price.value = datasnapshot.child('Cost').val();
@@ -219,37 +182,105 @@ restRef.on('value', function(datasnapshot) {
 
 });
 
-function deleteReview(rkey) {
-reviewRef.child(rkey).remove();
-  window.location.href = 'item.html?key='+itemkey;
+if(type=="edit") {
+  var reviewRef = firebase.database().ref().child('Reviews/'+reviewid);
+  reviewRef.once("value").then(function(dataSnapShot){
+    var reviewdata = dataSnapShot.val();
+    var reviewText = document.getElementById("review");
+    reviewText.value = reviewdata.Review;
 
+    var rating1 = document.getElementById("rating1");
+    var rating2 = document.getElementById("rating2");
+    var rating3 = document.getElementById("rating3");
+    var rating4 = document.getElementById("rating4");
+    var rating5 = document.getElementById("rating5");
+
+    switch(reviewdata.Rating) {
+        case '1':
+        rating1.checked=true;
+        break;
+        case '2':
+        rating2.checked=true;
+        break;
+        case '3':
+        rating3.checked=true;
+        break;
+        case '4':
+        rating4.checked=true;
+        break;
+        case '5':
+        rating5.checked=true;
+        break;
+    }
+ 
+});
 }
 
-function addToCart() {
-    var qty = document.getElementById("quantity");
-    var res = item_rest.innerHTML;
-    var cst = document.getElementById("cst");
-    var tot = cst.value * qty.value;
-    tot = Number(tot).toFixed(2); 
-    var newName = item_name.innerHTML;
-    if(hasSize==true) {
-      newName += " (" + sizedd.value + ")";
-    }  
-    var cartRef = firebase.database().ref().child("Users/1/Cart");
-    var newItemRef = cartRef.push();
-    newItemRef.set({
-    Name: newName,
-    Restaurant: res,
-    Image: image_name,
-    Cost: cst.value,
-    Quantity: qty.value,
-    Total: tot,
-    Status: 'Placed'
 
-  });
+function review() {
+  var reviewRef = firebase.database().ref().child('Reviews');
+  var reviewText = document.getElementById("review").value;
+  var ratingText;
 
-  window.location.href = 'cart.html';
+  var rating1 = document.getElementById("rating1");
+  var rating2 = document.getElementById("rating2");
+  var rating3 = document.getElementById("rating3");
+  var rating4 = document.getElementById("rating4");
+  var rating5 = document.getElementById("rating5");
 
+  if(rating1.checked==true)
+  {
+    ratingText = "1";
+  }
+  else if(rating2.checked==true)
+  {
+    ratingText = "2";
+  }
+  else if(rating3.checked==true)
+  {
+    ratingText = "3";
+  }
+  else if(rating4.checked==true)
+  {
+    ratingText = "4";
+  }
+  else if(rating5.checked==true)
+  { 
+    ratingText = "5";
+  }
+
+  
+
+  var today = new Date();
+
+  var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
+  var time = today.getHours() + ":" + today.getMinutes();
+  var datetime = date+' '+time;
+  
+  if(type=="write") {
+
+    var newReviewRef = reviewRef.push();
+    newReviewRef.set({
+      UserID:userid,
+      Rating:ratingText,
+      Review:reviewText,
+      ItemID:itemkey,
+      FullName: fullname,
+      DateTime: datetime
+    });
+  }
+  else if(type=="edit") {
+    var updates = {};
+    updates['Reviews/'+reviewid+'/UserID'] = userid;
+    updates['Reviews/'+reviewid+'/Rating'] = ratingText;
+    updates['Reviews/'+reviewid+'/Review'] = reviewText;
+    updates['Reviews/'+reviewid+'/ItemID'] = itemkey;
+    updates['Reviews/'+reviewid+'/FullName'] = fullname;
+    updates['Reviews/'+reviewid+'/DateTime'] = datetime;
+
+    firebase.database().ref().update(updates);
+  }
+  window.location.href = 'item.html?key='+itemkey;
 }
 
 function onSizeChange() {
